@@ -1,203 +1,141 @@
-📚 Aplicación de Bienestar Digital Estudiantil
-¡Bienvenido a la aplicación de Bienestar Digital Estudiantil! Esta herramienta está diseñada para ayudarte a gestionar tu tiempo frente a la pantalla, promover pausas activas y recordar hidratarse con notificaciones por navegador
+# 📚 Aplicación de Bienestar Digital Estudiantil
 
-🌟 Características Principales
-Esta aplicación incluye las siguientes funcionalidades clave para apoyar tu bienestar digital:
+¡Bienvenido! Esta aplicación está diseñada para ayudarte a cuidar tu bienestar digital mientras estudias o trabajas. Ofrece herramientas para gestionar el tiempo frente a la pantalla, promover pausas activas y mantenerte hidratado mediante notificaciones en el navegador.
 
-⏰ Control de Horario de Pantalla:
+## 🌟 Características Principales
 
-Establece un límite de tiempo diario para el uso de la pantalla.
-Un cronómetro de sesión te muestra el tiempo exacto que llevas en tu sesión actual (horas, minutos, segundos).
-Puedes iniciar, pausar y reiniciar el seguimiento del tiempo de pantalla.
+### ⏰ Control de Horario de Pantalla
 
-Recibirás recordatorios para tomar un descanso después de un tiempo prolongado de uso de pantalla.
+* Establece un límite diario de tiempo frente a la pantalla.
 
-🍅 Temporizador Pomodoro:
+* Cronómetro en tiempo real de tu sesión (horas, minutos, segundos).
 
-Implementa la técnica Pomodoro para sesiones de estudio o trabajo enfocadas.
+* Inicia, pausa y reinicia el seguimiento del tiempo fácilmente.
 
-Configura tiempos de trabajo y descanso personalizados.
+* Recibe recordatorios para tomar descansos tras un uso prolongado.
 
-Inicia, pausa y reinicia el temporizador fácilmente.
+### 🍅 Temporizador Pomodoro
 
-Notificaciones claras al cambiar entre fases de trabajo y descanso.
+* Implementación de la técnica Pomodoro para estudio/trabajo enfocado.
 
-💧 Recordatorios de Hidratación:
+* Personaliza tiempos de trabajo y descanso.
 
-Configura un intervalo personalizado para recibir recordatorios de hidratación.
+* Notificaciones automáticas al cambiar entre fases.
 
-Activa o desactiva los recordatorios según tus necesidades.
+### 💧 Recordatorios de Hidratación
 
-Mensajes de notificación que te indican cuándo es hora de beber agua.
+* Configura intervalos personalizados para recibir alertas de hidratación.
 
-💦 Contador de Vasos de Agua:
+* Activa o desactiva notificaciones según tus necesidades.
 
-Establece una meta diaria de vasos de agua a consumir.
+* Mensajes que te recuerdan cuándo beber agua.
 
-Añade vasos a tu contador con un simple clic.
+### 💦 Contador de Vasos de Agua
 
-Reinicia el contador al inicio de un nuevo día.
+* Define tu meta diaria de vasos de agua.
 
-🚀 Cómo Empezar
-Sigue estos pasos para poner en marcha la aplicación en tu entorno local.
+* Añade vasos al contador con un clic.
 
-📋 Pre-requisitos
-Asegúrate de tener instalados los siguientes programas en tu sistema:
+* Reinicia el contador al comenzar un nuevo día.
 
-Node.js y npm (Node Package Manager):
+## 🚀 Cómo Empezar
 
-Puedes descargarlos desde el sitio oficial: https://nodejs.org/
+### 📋 Requisitos Previos
 
-Verifica la instalación ejecutando en tu terminal:
+Asegúrate de tener instalado:
+
+* **Node.js** y **npm** (Node Package Manager)
+
+Verifica ejecutando en tu terminal:
 
 node -v
 npm -v
 
-📦 Instalación
-Crea un nuevo proyecto React con Vite:
-Abre tu terminal y ejecuta:
 
-npm create vite@latest
+### 📦 Instalación
 
-Cuando te pregunte, nombra tu proyecto (ej. bienestar-digital-app), selecciona React como framework y JavaScript como variante.
+1. Crea una carpeta llamada `bienestar-digital`.
 
-Navega al directorio del proyecto:
+2. Clona el repositorio:
 
-cd bienestar-digital-app
+git clone &lt;URL-del-repo>
 
-Instala las dependencias:
+
+3. Instala las dependencias:
 
 npm install
 
-Abre el proyecto en VS Code:
+
+4. Abre el proyecto en VS Code:
 
 code .
 
-⚙️ Configuración de Estilos (Tailwind CSS)
-Para asegurar que la aplicación se vea correctamente con el estilo minimalista de Tailwind CSS:
 
-Vacía los archivos CSS predeterminados:
+### ▶️ Ejecutar la Aplicación
 
-En VS Code, ve a la carpeta src.
-
-Abre src/App.css y src/index.css.
-
-Borra todo el contenido de ambos archivos. Déjalos completamente vacíos y guárdalos.
-
-Elimina las importaciones de CSS en src/main.jsx:
-
-Abre src/main.jsx.
-
-Busca y elimina (o comenta) las líneas que importan index.css y App.css, que se verán así:
-
-import './index.css'
-// import './App.css' // Esta línea podría estar o no
-
-Guarda el archivo.
-
-Mueve el CDN de Tailwind CSS al index.html:
-
-Abre index.html (está en la raíz de tu proyecto, no en src).
-
-Dentro de la etiqueta <head>, justo antes del cierre de </head>, pega las siguientes líneas:
-
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-Guarda el archivo.
-
-Reemplaza el código de App.jsx:
-
-Abre src/App.jsx.
-
-Borra todo el contenido existente.
-
-Copia y pega todo el código de la aplicación React que te he proporcionado (la última versión completa de ``).
-
-Asegúrate de NO incluir las líneas del CDN de Tailwind, la meta de viewport, ni el link de Google Fonts, ya que esas ya las moviste a index.html. Copia solo el código React puro desde import React... hasta export default App;.
-
-Guarda el archivo.
-
-▶️ Ejecutar la Aplicación
-Inicia el servidor de desarrollo:
-En tu terminal, desde el directorio raíz del proyecto (bienestar-digital-app), ejecuta:
+1. Desde la raíz del proyecto, inicia el servidor de desarrollo:
 
 npm run dev
 
-Abre la aplicación en tu navegador:
-Una vez que el servidor esté activo, la terminal te proporcionará una dirección local (ej. http://localhost:5173/). Copia esa dirección y pégala en la barra de direcciones de tu navegador web.
 
-🖥️ Uso de la Aplicación
+2. Cuando el servidor esté activo, abre en tu navegador la URL local proporcionada (ej. `http://localhost:5173/`).
+
+## 🖥️ Uso de la Aplicación
+
 Una vez que la aplicación esté en funcionamiento, verás un panel de control con tres secciones principales:
 
-⏰ Horario de Pantalla
-Límite Diario (min): Ajusta el tiempo máximo de pantalla que deseas usar al día.
+### ⏰ Horario de Pantalla
 
-Uso Actual: Muestra los minutos simulados de uso de pantalla acumulados.
+* **Límite Diario:** Define tu máximo deseado de uso diario.
 
-Cronómetro de Sesión: Un contador HH:MM:SS en tiempo real que indica cuánto tiempo llevas en la sesión actual.
+* **Uso Actual:** Muestra el tiempo acumulado.
 
-Botones:
+* **Cronómetro de Sesión:** Temporizador en tiempo real de tu sesión.
 
-Iniciar: Comienza el seguimiento del tiempo de pantalla y el cronómetro.
+* **Botones:** `Iniciar` / `Pausar` / `Reiniciar`
 
-Pausar: Detiene el seguimiento temporalmente.
+* **Notificaciones de descanso** tras uso prolongado.
 
-Reiniciar: Pone a cero el "Uso Actual" y el "Cronómetro de Sesión", y detiene el seguimiento.
+### 🍅 Temporizador Pomodoro
 
-Recomendación de Descanso: La aplicación te notificará con un mensaje en la parte superior cuando lleves un tiempo prolongado frente a la pantalla, sugiriéndote una pausa.
+* Configura duración de trabajo y descanso.
 
-🍅 Temporizador Pomodoro
-Trabajo (min) / Pausa (min): Configura la duración de tus sesiones de trabajo y de tus pausas.
+* Visualiza el tiempo restante y la fase actual.
 
-Contador: Muestra el tiempo restante para la fase actual.
+* **Botones:** `Iniciar` / `Pausar` / `Reiniciar`
 
-Fase Actual: Indica si estás en la fase de "Trabajo" o "Descanso".
+### 💧 Hidratación y Agua
 
-Botones:
+#### Recordatorios de Hidratación:
 
-Iniciar / Pausar: Alterna entre iniciar y pausar el temporizador.
+* **Intervalo (min):** Define la frecuencia.
 
-Reiniciar: Restablece el temporizador al inicio de la fase de trabajo.
+* **Activar/Desactivar** recordatorios.
 
-💧 Hidratación y Agua
-Esta sección se divide en dos partes:
+* Muestra la hora estimada del próximo recordatorio.
 
-Recordatorios de Hidratación:
+#### Contador de Vasos de Agua:
 
-Intervalo (min): Define cada cuánto tiempo deseas recibir un recordatorio para beber agua.
+* Meta diaria personalizada.
 
-Activar Recordatorios: Usa el interruptor para activar o desactivar las notificaciones. Los mensajes aparecerán en la parte superior de la aplicación.
+* **Botones** para `Añadir vaso` y `Reiniciar`.
 
-Próximo Recordatorio: Muestra la hora estimada del siguiente recordatorio.
+## 🛠️ Tecnologías Utilizadas
 
-Vasos de Agua Consumidos:
+* **React:** Librería para construir interfaces.
 
-Meta Diaria: Establece la cantidad de vasos de agua que quieres beber al día.
+* **Vite:** Herramienta rápida de desarrollo.
 
-Contador: Muestra cuántos vasos has consumido de tu meta.
+* **Tailwind CSS:** Framework CSS utility-first.
 
-Botones:
+## 💡 Próximas Mejoras
 
-Añadir Vaso: Incrementa el contador de vasos consumidos.
+* Guardado de configuraciones y progreso entre sesiones.
 
-Reiniciar: Pone el contador de vasos a cero.
+* Gráficas de progreso (tiempo en pantalla / agua).
 
-🛠️ Tecnologías Utilizadas
-React: Biblioteca JavaScript para construir interfaces de usuario.
+* Sonidos de notificación personalizables.
 
-Vite: Herramienta de construcción rápida para proyectos web.
+* Mejora del modo de seguimiento de tiempo de pantalla.
 
-Tailwind CSS: Framework CSS utility-first para un diseño rápido y responsivo.
-
-💡 Próximas Mejoras (Ideas)
-Persistencia de datos (guardar configuraciones y progreso entre sesiones).
-
-Gráficos de progreso de tiempo de pantalla y consumo de agua.
-
-Sonidos de notificación personalizables.
-
-Modo de seguimiento de tiempo de pantalla más avanzado (si el entorno lo permite).
-
-¡Disfruta usando tu aplicación de Bienestar Digital Estudiantil!
+¡Gracias por usar la Aplicación de Bienestar Digital Estudiantil! 😊
