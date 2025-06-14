@@ -1,38 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Componente principal de la aplicación
+// Componente principal
 function App() {
-  // --- Estados para el Temporizador Pomodoro ---
-  const [pomodoroWorkTime, setPomodoroWorkTime] = useState(25); // Duración de la sesión de trabajo en minutos
-  const [pomodoroBreakTime, setPomodoroBreakTime] = useState(5);  // Duración de la pausa en minutos
-  const [timerMinutes, setTimerMinutes] = useState(pomodoroWorkTime); // Minutos actuales del temporizador
-  const [timerSeconds, setTimerSeconds] = useState(0);             // Segundos actuales del temporizador
-  const [isTimerRunning, setIsTimerRunning] = useState(false);     // Indica si el temporizador está corriendo
-  const [isWorkPhase, setIsWorkPhase] = useState(true);            // Indica si es fase de trabajo o de descanso
-  const timerIntervalRef = useRef(null);                           // Referencia para el intervalo del temporizador
+  // --- Estados del Temporizador Pomodoro ---
+  const [pomodoroWorkTime, setPomodoroWorkTime] = useState(25); // Minutos de trabajo
+  const [pomodoroBreakTime, setPomodoroBreakTime] = useState(5); // Minutos de descanso
+  const [timerMinutes, setTimerMinutes] = useState(pomodoroWorkTime); // Minutos actuales
+  const [timerSeconds, setTimerSeconds] = useState(0); // Segundos actuales
+  const [isTimerRunning, setIsTimerRunning] = useState(false); // Temporizador activo
+  const [isWorkPhase, setIsWorkPhase] = useState(true); // Fase actual (trabajo/descanso)
+  const timerIntervalRef = useRef(null); // Referencia del intervalo
 
-  // --- Estados para el Control de Horario de Pantalla (Simulado) ---
-  const [screenTimeLimit, setScreenTimeLimit] = useState(180); // Límite de tiempo de pantalla en minutos
-  const [currentScreenTime, setCurrentScreenTime] = useState(0); // Tiempo de pantalla actual en minutos (simulado)
-  const [elapsedScreenTimeSeconds, setElapsedScreenTimeSeconds] = useState(0); // Cronómetro de sesión en segundos
-  const [isScreenTimeTrackingRunning, setIsScreenTimeTrackingRunning] = useState(false); // Indica si el seguimiento está activo
-  const screenTimeIntervalRef = useRef(null); // Referencia para el intervalo de tiempo de pantalla
-  const screenBreakRecommendationInterval = 60; // Recomendar descanso cada 60 minutos
+  // --- Estados del Control de Pantalla ---
+  const [screenTimeLimit, setScreenTimeLimit] = useState(180); // Límite diario (min)
+  const [currentScreenTime, setCurrentScreenTime] = useState(0); // Tiempo actual (min)
+  const [elapsedScreenTimeSeconds, setElapsedScreenTimeSeconds] = useState(0); // Cronómetro (seg)
+  const [isScreenTimeTrackingRunning, setIsScreenTimeTrackingRunning] = useState(false); // Seguimiento activo
+  const screenTimeIntervalRef = useRef(null); // Referencia del intervalo
+  const screenBreakRecommendationInterval = 60; // Intervalo de descanso (min)
 
-  // --- Estados para Recordatorios de Hidratación ---
-  const [hydrationInterval, setHydrationInterval] = useState(60); // Intervalo de recordatorio en minutos
-  const [isHydrationReminderActive, setIsHydrationReminderActive] = useState(false); // Indica si los recordatorios están activos
-  const hydrationIntervalRef = useRef(null); // Referencia para el intervalo de hidratación
-  const [nextReminderTime, setNextReminderTime] = useState(null); // Hora del próximo recordatorio
+  // --- Estados de Hidratación ---
+  const [hydrationInterval, setHydrationInterval] = useState(60); // Intervalo de recordatorio (min)
+  const [isHydrationReminderActive, setIsHydrationReminderActive] = useState(false); // Recordatorios activos
+  const hydrationIntervalRef = useRef(null); // Referencia del intervalo
+  const [nextReminderTime, setNextReminderTime] = useState(null); // Próximo recordatorio
 
-  // --- Estados para el Contador de Vasos de Agua ---
-  const [waterGlassesConsumed, setWaterGlassesConsumed] = useState(0); // Vasos de agua consumidos
-  const [waterTargetGlasses, setWaterTargetGlasses] = useState(8);    // Meta de vasos de agua al día
+  // --- Estados del Contador de Agua ---
+  const [waterGlassesConsumed, setWaterGlassesConsumed] = useState(0); // Vasos consumidos
+  const [waterTargetGlasses, setWaterTargetGlasses] = useState(8); // Meta diaria
 
-  // --- Estado para mensajes de notificación en la UI ---
+  // --- Estado de mensajes en la UI ---
   const [message, setMessage] = useState('');
 
-  // Función para mostrar mensajes temporales en la UI
+  // Mostrar mensajes temporales
   const showMessage = (msg, duration = 3000) => {
     setMessage(msg);
     setTimeout(() => setMessage(''), duration);
@@ -40,119 +40,86 @@ function App() {
 
   // --- Lógica del Temporizador Pomodoro ---
   useEffect(() => {
-    // Si el temporizador está corriendo
     if (isTimerRunning) {
       timerIntervalRef.current = setInterval(() => {
-        // Si los segundos llegan a 0
         if (timerSeconds === 0) {
-          // Si los minutos llegan a 0, la fase actual ha terminado
           if (timerMinutes === 0) {
-            clearInterval(timerIntervalRef.current); // Detener el temporizador
-            setIsTimerRunning(false); // Marcar como no corriendo
-
-            // Cambiar de fase (trabajo a descanso o viceversa)
-            if (isWorkPhase) {
-              showMessage('¡Hora de un descanso! ☕', 5000);
-              setTimerMinutes(pomodoroBreakTime); // Establecer tiempo de descanso
-            } else {
-              showMessage('¡Hora de volver al trabajo! 📚', 5000);
-              setTimerMinutes(pomodoroWorkTime); // Establecer tiempo de trabajo
-            }
-            setIsWorkPhase(!isWorkPhase); // Invertir la fase
-            setTimerSeconds(0); // Reiniciar segundos
-            // Opcional: Iniciar automáticamente la siguiente fase
-            // setIsTimerRunning(true);
+            clearInterval(timerIntervalRef.current);
+            setIsTimerRunning(false);
+            setIsWorkPhase(!isWorkPhase);
+            setTimerMinutes(isWorkPhase ? pomodoroBreakTime : pomodoroWorkTime);
+            setTimerSeconds(0);
+            showMessage(isWorkPhase ? '¡Hora de un descanso! ☕' : '¡Hora de trabajar! 📚', 5000);
           } else {
-            // Si los minutos no son 0, decrementar minutos y reiniciar segundos
-            setTimerMinutes((prevMinutes) => prevMinutes - 1);
+            setTimerMinutes((prev) => prev - 1);
             setTimerSeconds(59);
           }
         } else {
-          // Si los segundos no son 0, simplemente decrementar segundos
-          setTimerSeconds((prevSeconds) => prevSeconds - 1);
+          setTimerSeconds((prev) => prev - 1);
         }
-      }, 1000); // Cada segundo
+      }, 1000);
     }
-
-    // Función de limpieza para detener el intervalo cuando el componente se desmonta o el temporizador se detiene
     return () => clearInterval(timerIntervalRef.current);
   }, [isTimerRunning, timerMinutes, timerSeconds, isWorkPhase, pomodoroWorkTime, pomodoroBreakTime]);
 
-  // Función para iniciar/pausar el temporizador Pomodoro
-  const togglePomodoro = () => {
-    setIsTimerRunning(!isTimerRunning);
-  };
-
-  // Función para reiniciar el temporizador Pomodoro
+  const togglePomodoro = () => setIsTimerRunning(!isTimerRunning);
   const resetPomodoro = () => {
     clearInterval(timerIntervalRef.current);
     setIsTimerRunning(false);
     setIsWorkPhase(true);
     setTimerMinutes(pomodoroWorkTime);
     setTimerSeconds(0);
-    showMessage('Temporizador Pomodoro reiniciado.');
+    showMessage('Pomodoro reiniciado.');
   };
 
-  // --- Lógica del Control de Horario de Pantalla y Cronómetro ---
+  // --- Lógica del Control de Pantalla ---
   useEffect(() => {
     if (isScreenTimeTrackingRunning) {
       screenTimeIntervalRef.current = setInterval(() => {
-        setElapsedScreenTimeSeconds(prevSeconds => {
-          const newSeconds = prevSeconds + 1;
-          const newMinutes = Math.floor(newSeconds / 60); // Calcular minutos para el uso actual
-          setCurrentScreenTime(newMinutes); // Actualizar el tiempo de pantalla en minutos
-
-          // Avisar cada 'screenBreakRecommendationInterval' minutos para un descanso
-          if (newMinutes > 0 && newMinutes % screenBreakRecommendationInterval === 0 && (newSeconds % 60 === 0)) {
-            showMessage(`¡Has estado ${newMinutes} minutos en pantalla! Considera un descanso de 5-10 minutos. 😌`, 7000);
+        setElapsedScreenTimeSeconds((prev) => {
+          const newSeconds = prev + 1;
+          const newMinutes = Math.floor(newSeconds / 60);
+          setCurrentScreenTime(newMinutes);
+          if (newMinutes > 0 && newMinutes % screenBreakRecommendationInterval === 0 && newSeconds % 60 === 0) {
+            showMessage(`¡${newMinutes} minutos en pantalla! Descansa. 😌`, 7000);
           }
           return newSeconds;
         });
-      }, 1000); // Actualiza cada segundo
+      }, 1000);
     } else {
       clearInterval(screenTimeIntervalRef.current);
     }
-
     return () => clearInterval(screenTimeIntervalRef.current);
   }, [isScreenTimeTrackingRunning, screenBreakRecommendationInterval]);
 
-  // Funciones para iniciar/pausar el seguimiento de tiempo de pantalla
   const startScreenTimeTracking = () => {
     setIsScreenTimeTrackingRunning(true);
-    showMessage('Seguimiento de tiempo de pantalla iniciado.');
+    showMessage('Seguimiento iniciado.');
   };
 
   const pauseScreenTimeTracking = () => {
     setIsScreenTimeTrackingRunning(false);
-    showMessage('Seguimiento de tiempo de pantalla pausado.');
+    showMessage('Seguimiento pausado.');
   };
 
-  // --- Lógica de Recordatorios de Hidratación ---
+  // --- Lógica de Hidratación ---
   useEffect(() => {
-    // Limpiar cualquier intervalo existente al cambiar el estado o el intervalo
     if (hydrationIntervalRef.current) {
       clearInterval(hydrationIntervalRef.current);
       hydrationIntervalRef.current = null;
       setNextReminderTime(null);
     }
-
     if (isHydrationReminderActive && hydrationInterval > 0) {
-      // Establecer el primer recordatorio
       const firstReminder = new Date(Date.now() + hydrationInterval * 60 * 1000);
       setNextReminderTime(firstReminder);
-      showMessage(`Recordatorios de hidratación activados cada ${hydrationInterval} minutos.`, 5000);
-
-      // Iniciar el intervalo para recordatorios subsecuentes
+      showMessage(`Recordatorios cada ${hydrationInterval} min.`, 5000);
       hydrationIntervalRef.current = setInterval(() => {
-        showMessage('¡Es hora de beber agua! 💧', 5000);
-        const next = new Date(Date.now() + hydrationInterval * 60 * 1000);
-        setNextReminderTime(next);
+        showMessage('¡Bebe agua! 💧', 5000);
+        setNextReminderTime(new Date(Date.now() + hydrationInterval * 60 * 1000));
       }, hydrationInterval * 60 * 1000);
     } else if (!isHydrationReminderActive) {
-      showMessage('Recordatorios de hidratación desactivados.', 3000);
+      showMessage('Recordatorios desactivados.', 3000);
     }
-
-    // Función de limpieza
     return () => {
       if (hydrationIntervalRef.current) {
         clearInterval(hydrationIntervalRef.current);
@@ -160,29 +127,13 @@ function App() {
     };
   }, [isHydrationReminderActive, hydrationInterval]);
 
-  // Formatear el tiempo para mostrarlo (ej. 05:03)
-  const formatTime = (minutes, seconds) => {
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-    return `${formattedMinutes}:${formattedSeconds}`;
-  };
-
-  // Formatear la hora del próximo recordatorio
-  const formatNextReminderTime = (date) => {
-    if (!date) return 'N/A';
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  };
-
-  // Formatear el tiempo transcurrido del cronómetro (HH:MM:SS)
+  const formatTime = (minutes, seconds) => `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const formatNextReminderTime = (date) => (date ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A');
   const formatElapsedTime = (totalSeconds) => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
   return (
